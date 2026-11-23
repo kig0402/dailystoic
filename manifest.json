@@ -1,0 +1,31 @@
+{
+  "name": "데일리 필로소피 | Daily Stoic",
+  "short_name": "데일리필로소피",
+  "description": "매일 만나는 스토아 철학자와 니체, 쇼펜하우어의 지혜와 실천 해설",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#F7F4EB",
+  "theme_color": "#A3622A",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

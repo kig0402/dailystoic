@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ko" class="theme-parchment">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>데일리 필로소피 | Daily Stoic</title>
+
+  <!-- PWA & Mobile Web App Meta Tags -->
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#A3622A">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="데일리 필로소피">
+  <link rel="apple-touch-icon" href="./icon-192.png">
+  <link rel="icon" type="image/svg+xml" href="./icon.svg">
+  <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+  
+  <!-- 구글 폰트: 한글 세리프(명조) 및 가독성 폰트 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=Noto+Serif+KR:wght@400;600;700;900&family=Pretendard:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <style>
+    /* 커스텀 테마 변수 */
+    :root.theme-parchment {
+      --bg-main: #F7F4EB;
+      --bg-card: #FFFFFF;
+      --bg-inner: #FBF9F4;
+      --text-primary: #2C2621;
+      --text-secondary: #6B6156;
+      --text-muted: #9C8F80;
+      --border-color: #E8E1D1;
+      --accent-color: #A3622A;
+      --accent-bg: #F4ECE0;
+      --highlight-box: #F5EFE4;
+      --card-shadow: 0 10px 28px -8px rgba(78, 64, 45, 0.12);
+    }
+
+    :root.theme-dark {
+      --bg-main: #101114;
+      --bg-card: #1A1C22;
+      --bg-inner: #22252D;
+      --text-primary: #ECEEF2;
+      --text-secondary: #A0A5B2;
+      --text-muted: #6B7280;
+      --border-color: #2E333F;
+      --accent-color: #D4AF37;
+      --accent-bg: #2B281E;
+      --highlight-box: #242832;
+      --card-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.6);
+    }
+
+    :root.theme-slate {
+      --bg-main: #F1F5F9;
+      --bg-card: #FFFFFF;
+      --bg-inner: #F8FAFC;
+      --text-primary: #0F172A;
+      --text-secondary: #475569;
+      --text-muted: #94A3B8;
+      --border-color: #E2E8F0;
+      --accent-color: #2563EB;
+      --accent-bg: #EFF6FF;
+      --highlight-box: #F1F5F9;
+      --card-shadow: 0 10px 24px -8px rgba(15, 23, 42, 0.08);
+    }
+
+    /* 화면 전체 넘침 방지: 바깥 스크롤 100% 차단 */
+    html, body {
+      height: 100%;
+      height: 100dvh;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      overscroll-behavior: none;
+      background-color: var(--bg-main);
+      color: var(--text-primary);
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      touch-action: pan-y;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    .font-serif {
+      font-family: 'Noto Serif KR', serif;
+    }
+
+    .font-latin-serif {
+      font-family: 'Cormorant Garamond', 'Noto Serif KR', serif;
+    }
+
+    /* 카드 전환 애니메이션 */
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(20px) scale(0.98); }
+      to { opacity: 1; transform: translateX(0) scale(1); }
+    }
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-20px) scale(0.98); }
+      to { opacity: 1; transform: translateX(0) scale(1); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.98); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .slide-in-right { animation: slideInRight 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .slide-in-left { animation: slideInLeft 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .fade-in { animation: fadeIn 0.22s ease-out forwards; }
+
+    /* 모바일 맞춤 스크롤바 */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* 내용 전용 미세 스크롤바 */
+    .content-scrollbar {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(160, 140, 120, 0.3) transparent;
+      overscroll-behavior: contain;
+    }
+    .content-scrollbar::-webkit-scrollbar {
+      width: 3.5px;
+    }
+    .content-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .content-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(160, 140, 120, 0.35);
+      border-radius: 4px;
+    }
+
+    /* 필터 버튼 활성화 */
+    .filter-btn.active-filter {
+      background-color: var(--accent-color);
+      color: #FFFFFF;
+      font-weight: 600;
+      border-color: var(--accent-color);
+    }
+
+    /* 한 화면 100% 핏 모바일 프레임 (동적 뷰포트 높이 100dvh) */
+    .mobile-frame {
+      height: 100%;
+      height: 100dvh;
+      max-width: 480px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      padding-top: max(8px, env(safe-area-inset-top));
+      padding-bottom: max(6px, env(safe-area-inset-bottom));
+      padding-left: 12px;
+      padding-right: 12px;
+      box-sizing: border-box;
+    }
+
+    /* 카드 스타일 */
+    .philosophy-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--card-shadow);
+      border-radius: 1.25rem;
+    }
+
+    .quote-badge {
+      background-color: var(--accent-bg);
+      color: var(--accent-color);
+    }
+
+    .practice-box {
+      background-color: var(--highlight-box);
+      border-left: 3px solid var(--accent-color);
+    }
+  </style>
+</head>
+<body class="antialiased">
+
+  <div class="mobile-frame">
+    
+    <!-- 1. 상단 헤더: 고정 영역 (flex-shrink-0) -->
+    <header class="flex-shrink-0 pt-1 pb-1 flex items-center justify-between">
+      <div>
+        <div class="flex items-center gap-1.5">
+          <img src="./icon.svg" alt="로고" class="w-5 h-5 rounded-md shadow-sm">
+          <h1 class="font-serif font-bold text-base sm:text-lg tracking-tight" style="color: var(--text-primary)">
+            데일리 필로소피
+          </h1>
+        </div>
+        <p id="currentDateDisplay" class="text-[11px] font-medium tracking-wide mt-0.5" style="color: var(--text-muted)">
+          --
+        </p>
+      </div>
+
+      <!-- 상단 유틸리티 아이콘 바 -->
+      <div class="flex items-center gap-0.5">
+        <!-- 폰트 크기 토글 -->
+        <button onclick="cycleFontSize()" title="글자 크기 변경" class="p-1.5 rounded-full hover:bg-black/5 dark:hover:bg-white/5 transition flex items-center justify-center text-xs font-bold" style="color: var(--text-secondary)">
+          <span class="border border-current px-1 py-0.2 rounded text-[10px]">A±</span>
+        </button>
+
+        <!-- 명상 사운드 토글 -->
+        <button onclick="toggleSound()" title="명상 차임벨 효과음" class="p-1.5 rounded-full hover:bg-black/5 dark:hover:bg-white/5 transition" style="color: var(--text-secondary)">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+          </svg>
+        </button>
+
+        <!-- 테마 토글 (양장본/다크/모던) -->
+        <button onclick="cycleTheme()" title="테마 변경" class="p-1.5 rounded-full hover:bg-black/5 dark:hover:bg-white/5 transition" style="color: var(--text-secondary)">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4 5 5 0 013-4.594V5a2 2 0 114 0v2.406A5 5 0 0113 17a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-3a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V10"></path>
+          </svg>
+        </button>
+
+        <!-- 보관함 열기 -->
+        <button onclick="openBookmarksModal()" title="보관함 열기" class="p-1.5 rounded-full hover:bg-black/5 dark:hover:bg-white/5 transition relative" style="color: var(--text-secondary)">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
+          </svg>
+          <span id="bookmarkCountBadge" class="absolute top-0.5 right-0.5 bg-amber-600 text-white rounded-full text-[9px] w-3.5 h-3.5 flex items-center justify-center font-bold" style="display: none;">0</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- 2. 모드 알림 배지: 고정 영역 (flex-shrink-0) -->
+    <div class="flex-shrink-0 py-0.5 flex items-center justify-between">
+      <span id="modeIndicatorBadge" class="text-[10px] font-semibold tracking-tight px-2 py-0.5 rounded-md" style="background-color: var(--accent-bg); color: var(--accent-color)">
+        📅 오늘의 25선 (매일 자정 자동 갱신)
+      </span>
+      <span class="text-[10px] opacity-50 font-mono">
+        총 75선 보관
+      </span>
+    </div>
+
+    <!-- 3. 필터 칩 바: 고정 영역 (flex-shrink-0) -->
+    <nav class="flex-shrink-0 py-1 flex gap-1.5 overflow-x-auto no-scrollbar text-xs">
+      <button onclick="setFilter('daily25')" data-filter="daily25" class="filter-btn active-filter px-2.5 py-1 rounded-full border transition whitespace-nowrap text-[11px]" style="border-color: var(--border-color); color: var(--text-secondary);">
+        ✨ 오늘의 25선
+      </button>
+      <button onclick="setFilter('all')" data-filter="all" class="filter-btn px-2.5 py-1 rounded-full border transition whitespace-nowrap text-[11px]" style="border-color: var(--border-color); color: var(--text-secondary);">
+        📚 전체 아카이브 (75)
+      </button>
+      <button onclick="setFilter('마르쿠스')" data-filter="마르쿠스" class="filter-btn px-2.5 py-1 rounded-full border transition whitespace-nowrap text-[11px]" style="border-color: var(--border-color); color: var(--text-secondary);">
+        🏛️ 마르쿠스 (15)
+      </button>
+      <button onclick="setFilter('세네카')" data-filter="세네카" class="filter-btn px-2.5 py-1 rounded-full border transition whitespace-nowrap text-[11px]" style="border-color: var(--border-color); color: var(--text-secondary);">
+        📜 세네카 (15)
+      </button>
+      <button onclick="setFilter('에픽테토스')" data-filter="에픽테토스" class="filter-btn px-2.5 py-1 rounded-full border transition whitespace-nowrap text-[11px]" style="border-color: var(--border-color); color: var(--text-secondary);">
+        🕊️ 에픽테토스 (15)
+      </button>
+      <button onclick="setFilter('니체')" data-filter="니체" class="filter-btn px-2.5 py-1 rounded-full border transition whitespace-nowrap text-[11px]" style="border-color: var(--border-color); color: var(--text-secondary);">
+        ⚡ 니체 (15)
+      </button>
+      <button onclick="setFilter('쇼펜하우어')" data-filter="쇼펜하우어" class="filter-btn px-2.5 py-1 rounded-full border transition whitespace-nowrap text-[11px]" style="border-color: var(--border-color); color: var(--text-secondary);">
+        🕯️ 쇼펜하우어 (15)
+      </button>
+    </nav>
+
+    <!-- 4. 메인 콘텐츠: 남은 높이를 꽉 채우고 넘침 방지 (flex-1 min-h-0 overflow-hidden) -->
+    <main id="swipeArea" class="flex-1 min-h-0 my-1 flex flex-col overflow-hidden relative">
+      <div id="quoteCard" class="philosophy-card flex-1 min-h-0 flex flex-col justify-between overflow-hidden p-3.5 sm:p-4 relative transition-all">
+        
+        <!-- 카드 상단: 고정 헤더 (flex-shrink-0) -->
+        <div class="flex-shrink-0 flex items-center justify-between pb-2 border-b" style="border-color: var(--border-color)">
+          <div class="flex items-center gap-2">
+            <span id="cardThemeBadge" class="quote-badge text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wider">
+              --
+            </span>
+            <span id="pageIndicator" class="text-[11px] font-mono tracking-tight font-medium" style="color: var(--text-muted)">
+              1 / 25
+            </span>
+          </div>
+
+          <div class="flex items-center gap-1">
+            <!-- 복사 버튼 -->
+            <button onclick="copyCurrentQuote()" title="명언 복사" class="p-1.5 rounded-full hover:bg-black/5 dark:hover:bg-white/5 transition" style="color: var(--text-muted)">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+              </svg>
+            </button>
+            <!-- 북마크 별표 버튼 -->
+            <button onclick="toggleBookmark()" title="보관함 저장" class="p-1.5 rounded-full hover:bg-black/5 dark:hover:bg-white/5 transition" style="color: var(--text-muted)">
+              <svg id="bookmarkIcon" class="w-3.5 h-3.5 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- 🌟 [핵심] 카드 내부 본문: 오직 이 영역만 독립 스크롤 가능 (flex-1 min-h-0 overflow-y-auto) -->
+        <div id="cardScrollBody" class="flex-1 min-h-0 overflow-y-auto content-scrollbar py-2 space-y-2.5 pr-1">
+          
+          <!-- 철학자 메타 정보 -->
+          <div class="flex items-center gap-2">
+            <span id="cardAuthorIcon" class="text-xl">🏛️</span>
+            <div>
+              <div class="flex items-baseline gap-1.5">
+                <h3 id="cardAuthorName" class="font-serif font-bold text-sm" style="color: var(--text-primary)">
+                  --
+                </h3>
+                <span id="cardAuthorEn" class="text-[11px] font-serif italic" style="color: var(--text-muted)">
+                  --
+                </span>
+              </div>
+              <p id="cardWorkName" class="text-[10px] font-medium opacity-80" style="color: var(--text-secondary)">
+                --
+              </p>
+            </div>
+          </div>
+
+          <!-- 주옥같은 원문 인용 -->
+          <div class="py-0.5">
+            <blockquote id="cardQuoteText" class="font-serif font-semibold text-base sm:text-lg leading-relaxed tracking-tight" style="color: var(--text-primary)">
+              --
+            </blockquote>
+          </div>
+
+          <!-- 소제목 -->
+          <div class="flex items-center gap-1.5 pt-0.5">
+            <div class="w-1.5 h-1.5 rounded-full" style="background-color: var(--accent-color)"></div>
+            <h4 id="cardTitleText" class="text-[11px] font-bold uppercase tracking-wider" style="color: var(--accent-color)">
+              --
+            </h4>
+          </div>
+
+          <!-- 데일리 필로소피 스타일 해설 -->
+          <div class="text-xs sm:text-sm leading-relaxed" style="color: var(--text-secondary)">
+            <p id="cardCommentaryText" class="text-justify font-normal leading-relaxed">
+              --
+            </p>
+          </div>
+
+          <!-- 오늘의 실천 과제 (Daily Practice) -->
+          <div class="practice-box p-2.5 rounded-lg mt-1">
+            <div class="flex items-center gap-1 text-[11px] font-bold mb-0.5" style="color: var(--accent-color)">
+              <span>💡</span>
+              <span>오늘의 실천 과제</span>
+            </div>
+            <p id="cardActionText" class="text-[11px] italic leading-relaxed" style="color: var(--text-primary)">
+              --
+            </p>
+          </div>
+
+        </div>
+
+        <!-- 카드 하단 도움말 (flex-shrink-0) -->
+        <div class="flex-shrink-0 pt-1.5 text-center text-[10px] opacity-40 select-none flex items-center justify-center gap-1 border-t" style="border-color: var(--border-color); color: var(--text-muted)">
+          <svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18"></path>
+          </svg>
+          <span>좌우로 스와이프하여 넘기기</span>
+          <svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+          </svg>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- 5. 하단 네비게이션: 화면 하단에 늘 깔끔하게 고정 (flex-shrink-0) -->
+    <footer class="flex-shrink-0 pt-1 pb-1">
+      <!-- 1열: 주사위 / 오늘의 1번 지혜 바로가기 -->
+      <div class="flex items-center justify-between mb-1.5 px-0.5">
+        <button onclick="goToTodayQuote()" class="flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold hover:bg-black/5 dark:hover:bg-white/5 transition" style="color: var(--accent-color); background-color: var(--accent-bg)">
+          <span>📅</span>
+          <span>오늘의 첫번째 지혜</span>
+        </button>
+
+        <button onclick="randomQuote()" class="flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-medium hover:bg-black/5 dark:hover:bg-white/5 transition" style="color: var(--text-secondary); border: 1px solid var(--border-color)">
+          <span>🎲</span>
+          <span>랜덤 넘기기</span>
+        </button>
+      </div>
+
+      <!-- 2열: 이전 / 다음 버튼 (손쉬운 한 손 조작) -->
+      <div class="grid grid-cols-2 gap-2">
+        <button onclick="prevQuote()" class="py-2.5 px-3 rounded-xl border flex items-center justify-center gap-1.5 font-medium text-xs sm:text-sm transition active:scale-[0.98]" style="border-color: var(--border-color); background-color: var(--bg-card); color: var(--text-primary)">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+          </svg>
+          <span>이전 명언</span>
+        </button>
+
+        <button onclick="nextQuote()" class="py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5 font-semibold text-xs sm:text-sm transition active:scale-[0.98] shadow-sm text-white" style="background-color: var(--accent-color)">
+          <span>다음 명언</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </button>
+      </div>
+    </footer>
+
+    <!-- 6. 토스트 알림 (하단 플로팅) -->
+    <div id="toastNotification" class="fixed bottom-16 left-1/2 -translate-x-1/2 bg-stone-900/90 dark:bg-stone-100/90 text-white dark:text-stone-900 text-xs px-3.5 py-1.5 rounded-full shadow-lg pointer-events-none opacity-0 transition-opacity duration-300 z-50 whitespace-nowrap">
+      알림 메시지
+    </div>
+
+    <!-- 7. 보관함 모달 -->
+    <div id="bookmarkModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center hidden">
+      <div class="w-full max-w-md max-h-[80vh] rounded-t-2xl sm:rounded-2xl p-4 flex flex-col" style="background-color: var(--bg-card); color: var(--text-primary)">
+        <div class="flex items-center justify-between pb-2.5 border-b" style="border-color: var(--border-color)">
+          <div class="flex items-center gap-1.5">
+            <span class="text-amber-500">⭐</span>
+            <h3 class="font-bold text-sm">간직한 철학 명언 보관함</h3>
+          </div>
+          <button onclick="closeBookmarksModal()" class="p-1 rounded-full hover:bg-black/5 dark:hover:bg-white/5">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+
+        <div id="bookmarkListContainer" class="flex-1 overflow-y-auto py-2.5 no-scrollbar">
+          <!-- 스크립트에서 동적 생성 -->
+        </div>
+
+        <div class="pt-1.5 text-center">
+          <button onclick="closeBookmarksModal()" class="w-full py-2 rounded-xl text-xs font-semibold" style="background-color: var(--accent-bg); color: var(--accent-color)">
+            닫기
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 데이터 및 앱 스크립트 로드 -->
+  <script src="./quotes.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

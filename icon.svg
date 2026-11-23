@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3A302A" />
+      <stop offset="50%" stop-color="#241E1A" />
+      <stop offset="100%" stop-color="#151210" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FCEBA4" />
+      <stop offset="50%" stop-color="#D4AF37" />
+      <stop offset="100%" stop-color="#9A7B1C" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Background with subtle squircle -->
+  <rect width="512" height="512" rx="112" fill="url(#bgGrad)" />
+  <rect x="16" y="16" width="480" height="480" rx="96" fill="none" stroke="url(#goldGrad)" stroke-width="3" stroke-opacity="0.3" />
+
+  <!-- Classical Greek/Roman Temple Icon -->
+  <g filter="url(#shadow)" fill="url(#goldGrad)">
+    <!-- Pediment (Roof triangle) -->
+    <path d="M 256,108 L 112,188 L 400,188 Z" />
+    
+    <!-- Architrave / Top bar -->
+    <rect x="120" y="196" width="272" height="22" rx="4" />
+    <rect x="130" y="224" width="252" height="10" rx="2" opacity="0.8" />
+
+    <!-- 4 Pillars -->
+    <!-- Pillar 1 -->
+    <rect x="144" y="240" width="26" height="150" rx="3" />
+    <rect x="138" y="236" width="38" height="8" rx="2" />
+    <rect x="138" y="386" width="38" height="8" rx="2" />
+
+    <!-- Pillar 2 -->
+    <rect x="214" y="240" width="26" height="150" rx="3" />
+    <rect x="208" y="236" width="38" height="8" rx="2" />
+    <rect x="208" y="386" width="38" height="8" rx="2" />
+
+    <!-- Pillar 3 -->
+    <rect x="272" y="240" width="26" height="150" rx="3" />
+    <rect x="266" y="236" width="38" height="8" rx="2" />
+    <rect x="266" y="386" width="38" height="8" rx="2" />
+
+    <!-- Pillar 4 -->
+    <rect x="342" y="240" width="26" height="150" rx="3" />
+    <rect x="336" y="236" width="38" height="8" rx="2" />
+    <rect x="336" y="386" width="38" height="8" rx="2" />
+
+    <!-- Stylobate / Base Steps -->
+    <rect x="120" y="398" width="272" height="16" rx="3" />
+    <rect x="104" y="418" width="304" height="20" rx="4" />
+  </g>
+
+  <!-- Laurel wreath or subtle circular emblem in pediment -->
+  <circle cx="256" cy="154" r="14" fill="#D4AF37" opacity="0.9" />
+</svg>
