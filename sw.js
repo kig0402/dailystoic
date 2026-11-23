@@ -1,5 +1,5 @@
-// 데일리 필로소피 Service Worker - 오프라인 캐싱 및 PWA 지원 (v4)
-const CACHE_NAME = 'daily-stoic-v4';
+// 데일리 필로소피 Service Worker - 오프라인 캐싱 및 PWA 지원 (v5)
+const CACHE_NAME = 'daily-stoic-v5';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',

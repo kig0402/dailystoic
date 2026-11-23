@@ -359,35 +359,17 @@
       </div>
     </main>
 
-    <!-- 5. 하단 네비게이션: 화면 하단에 늘 깔끔하게 고정 (flex-shrink-0) -->
+    <!-- 5. 하단 액션 바: 스와이프 탐색 중심, 컴팩트한 보조 버튼만 유지 (flex-shrink-0) -->
     <footer class="flex-shrink-0 pt-1 pb-1">
-      <!-- 1열: 주사위 / 오늘의 1번 지혜 바로가기 -->
-      <div class="flex items-center justify-between mb-1.5 px-0.5">
-        <button onclick="goToTodayQuote()" class="flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold hover:bg-black/5 dark:hover:bg-white/5 transition" style="color: var(--accent-color); background-color: var(--accent-bg)">
+      <div class="flex items-center justify-between px-1">
+        <button onclick="goToTodayQuote()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold hover:bg-black/5 dark:hover:bg-white/5 transition" style="color: var(--accent-color); background-color: var(--accent-bg)">
           <span>📅</span>
           <span>오늘의 첫번째 지혜</span>
         </button>
 
-        <button onclick="randomQuote()" class="flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-medium hover:bg-black/5 dark:hover:bg-white/5 transition" style="color: var(--text-secondary); border: 1px solid var(--border-color)">
+        <button onclick="randomQuote()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium hover:bg-black/5 dark:hover:bg-white/5 transition" style="color: var(--text-secondary); border: 1px solid var(--border-color)">
           <span>🎲</span>
           <span>랜덤 넘기기</span>
-        </button>
-      </div>
-
-      <!-- 2열: 이전 / 다음 버튼 (손쉬운 한 손 조작) -->
-      <div class="grid grid-cols-2 gap-2">
-        <button onclick="prevQuote()" class="py-2.5 px-3 rounded-xl border flex items-center justify-center gap-1.5 font-medium text-xs sm:text-sm transition active:scale-[0.98]" style="border-color: var(--border-color); background-color: var(--bg-card); color: var(--text-primary)">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-          </svg>
-          <span>이전 명언</span>
-        </button>
-
-        <button onclick="nextQuote()" class="py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5 font-semibold text-xs sm:text-sm transition active:scale-[0.98] shadow-sm text-white" style="background-color: var(--accent-color)">
-          <span>다음 명언</span>
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-          </svg>
         </button>
       </div>
     </footer>
