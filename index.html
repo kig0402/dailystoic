@@ -203,6 +203,13 @@
 
       <!-- 상단 유틸리티 아이콘 바 -->
       <div class="flex items-center gap-0.5">
+        <!-- 동적 큐레이션 엔진 관리 -->
+        <button onclick="openEngineModal()" title="동적 지혜 엔진 및 명언 발굴" class="p-1.5 rounded-full hover:bg-black/5 dark:hover:bg-white/5 transition flex items-center justify-center" style="color: var(--accent-color)">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+          </svg>
+        </button>
+
         <!-- 폰트 크기 토글 -->
         <button onclick="cycleFontSize()" title="글자 크기 변경" class="p-1.5 rounded-full hover:bg-black/5 dark:hover:bg-white/5 transition flex items-center justify-center text-xs font-bold" style="color: var(--text-secondary)">
           <span class="border border-current px-1 py-0.2 rounded text-[10px]">A±</span>
@@ -237,9 +244,10 @@
       <span id="modeIndicatorBadge" class="text-[10px] font-semibold tracking-tight px-2 py-0.5 rounded-md" style="background-color: var(--accent-bg); color: var(--accent-color)">
         📅 오늘의 25선 (매일 자정 자동 갱신)
       </span>
-      <span class="text-[10px] opacity-50 font-mono">
-        총 150선 보관
-      </span>
+      <button onclick="openEngineModal()" title="지혜 확장 관리" class="flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-full font-mono font-medium hover:opacity-85 transition cursor-pointer" style="background-color: var(--accent-bg); color: var(--accent-color)">
+        <span id="totalLibraryCountText">총 150선 보관</span>
+        <span class="text-[9px]">✨</span>
+      </button>
     </div>
 
     <!-- 3. 필터 칩 바: 고정 영역 (flex-shrink-0) -->
@@ -376,6 +384,11 @@
           <span>오늘의 첫번째 지혜</span>
         </button>
 
+        <button onclick="openEngineModal()" title="지혜 확장 관리" class="flex items-center gap-1 px-2.5 py-1.5 rounded-full text-xs font-medium hover:bg-black/5 dark:hover:bg-white/5 transition" style="color: var(--accent-color); border: 1px dashed var(--accent-color)">
+          <span>✨</span>
+          <span>지혜 확장</span>
+        </button>
+
         <button onclick="randomQuote()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium hover:bg-black/5 dark:hover:bg-white/5 transition" style="color: var(--text-secondary); border: 1px solid var(--border-color)">
           <span>🎲</span>
           <span>랜덤 넘기기</span>
@@ -412,6 +425,174 @@
             닫기
           </button>
         </div>
+      </div>
+    </div>
+
+    <!-- 8. 동적 확장형 큐레이션 엔진 모달 -->
+    <div id="engineModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center hidden">
+      <div class="w-full max-w-md max-h-[85vh] rounded-t-2xl sm:rounded-2xl p-4 flex flex-col overflow-hidden" style="background-color: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border-color)">
+        
+        <!-- 모달 헤더 -->
+        <div class="flex items-center justify-between pb-2.5 border-b flex-shrink-0" style="border-color: var(--border-color)">
+          <div class="flex items-center gap-2">
+            <span class="text-lg">✨</span>
+            <div>
+              <h3 class="font-bold text-sm">동적 확장형 큐레이션 엔진</h3>
+              <p class="text-[10px] opacity-70" style="color: var(--text-secondary)">끊임없이 유입되는 스토아 지혜 아카이브</p>
+            </div>
+          </div>
+          <button onclick="closeEngineModal()" class="p-1 rounded-full hover:bg-black/5 dark:hover:bg-white/5 opacity-70 hover:opacity-100">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- 모달 본문 (스크롤) -->
+        <div class="flex-1 overflow-y-auto content-scrollbar py-3 space-y-3.5 pr-0.5 text-xs">
+          
+          <!-- 엔진 상태 요약 카드 -->
+          <div class="p-3 rounded-xl flex items-center justify-around text-center" style="background-color: var(--bg-inner); border: 1px solid var(--border-color)">
+            <div>
+              <span class="text-[10px] opacity-70 block mb-0.5">활성 지혜 서재</span>
+              <span id="engineTotalCount" class="font-serif font-black text-xl" style="color: var(--accent-color)">150</span>
+              <span class="text-[10px] opacity-80"> 개</span>
+            </div>
+            <div class="w-px h-8 bg-stone-300 dark:bg-stone-700"></div>
+            <div>
+              <span class="text-[10px] opacity-70 block mb-0.5">대기 중인 예비 풀</span>
+              <span id="enginePoolCount" class="font-serif font-black text-xl text-amber-600 dark:text-amber-400">30</span>
+              <span class="text-[10px] opacity-80"> 개</span>
+            </div>
+            <div class="w-px h-8 bg-stone-300 dark:bg-stone-700"></div>
+            <div>
+              <span class="text-[10px] opacity-70 block mb-0.5">자동 발굴 엔진</span>
+              <span class="font-bold text-xs text-emerald-600 dark:text-emerald-400 flex items-center justify-center gap-0.5 mt-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> 동작 중
+              </span>
+            </div>
+          </div>
+
+          <!-- 기능 설명 안내 -->
+          <div class="p-2.5 rounded-lg text-[11px] leading-relaxed" style="background-color: var(--highlight-box); color: var(--text-secondary)">
+            <p class="font-medium text-[11.5px] mb-1" style="color: var(--text-primary)">💡 <strong>동적 확장형 큐레이션 안내</strong></p>
+            • 앱을 방문하거나 새로고침할 때마다 대기 풀의 새로운 지혜가 자동으로 발굴·영구 보관됩니다.<br>
+            • 지금 즉시 새로운 명언을 라이브러리로 수혈하거나, 나만의 명언을 직접 등록할 수 있습니다.
+          </div>
+
+          <!-- 액션 버튼 목록 -->
+          <div class="space-y-2">
+            <!-- 5개 발굴 -->
+            <button onclick="discoverMoreQuotes(5)" class="w-full py-2.5 px-3 rounded-xl flex items-center justify-between transition group font-semibold text-xs shadow-sm" style="background-color: var(--accent-bg); color: var(--accent-color); border: 1px solid var(--accent-color)">
+              <div class="flex items-center gap-2">
+                <span>🔮</span>
+                <span>새로운 지혜 발굴하기 (+5개)</span>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-white/70 dark:bg-stone-800/70">즉시 추가</span>
+            </button>
+
+            <!-- 대기 풀 전체 활성화 -->
+            <button onclick="discoverAllPoolQuotes()" class="w-full py-2.5 px-3 rounded-xl flex items-center justify-between transition hover:opacity-90 font-medium text-xs border" style="border-color: var(--border-color); color: var(--text-primary); background-color: var(--bg-inner)">
+              <div class="flex items-center gap-2">
+                <span>⚡</span>
+                <span>대기 풀 지혜 일괄 활성화</span>
+              </div>
+              <span class="text-[10px] opacity-70">전체 유입</span>
+            </button>
+
+            <!-- 나만의 명언 등록 모달 열기 -->
+            <button onclick="closeEngineModal(); openAddQuoteModal();" class="w-full py-2.5 px-3 rounded-xl flex items-center justify-between transition hover:opacity-90 font-medium text-xs border" style="border-color: var(--border-color); color: var(--text-primary); background-color: var(--bg-inner)">
+              <div class="flex items-center gap-2">
+                <span>✍️</span>
+                <span>나만의 철학 명언 직접 등록하기</span>
+              </div>
+              <span class="text-[10px] opacity-70">추가하기 ➕</span>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- 모달 닫기 버튼 -->
+        <div class="pt-2 border-t flex-shrink-0" style="border-color: var(--border-color)">
+          <button onclick="closeEngineModal()" class="w-full py-2 rounded-xl text-xs font-semibold transition" style="background-color: var(--bg-inner); color: var(--text-secondary); border: 1px solid var(--border-color)">
+            닫기
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 9. 나만의 명언 직접 등록 모달 -->
+    <div id="addQuoteModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center hidden">
+      <div class="w-full max-w-md max-h-[90vh] rounded-t-2xl sm:rounded-2xl p-4 flex flex-col overflow-hidden" style="background-color: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border-color)">
+        
+        <!-- 헤더 -->
+        <div class="flex items-center justify-between pb-2.5 border-b flex-shrink-0" style="border-color: var(--border-color)">
+          <div class="flex items-center gap-2">
+            <span class="text-lg">✍️</span>
+            <div>
+              <h3 class="font-bold text-sm">나만의 철학 명언 등록</h3>
+              <p class="text-[10px] opacity-70" style="color: var(--text-secondary)">소중한 글귀를 데일리 필로소피 서재에 추가합니다</p>
+            </div>
+          </div>
+          <button onclick="closeAddQuoteModal()" class="p-1 rounded-full hover:bg-black/5 dark:hover:bg-white/5 opacity-70 hover:opacity-100">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- 입력 폼 (스크롤 가능) -->
+        <form id="addQuoteForm" onsubmit="handleAddQuoteSubmit(event)" class="flex-1 overflow-y-auto content-scrollbar py-2.5 space-y-3 pr-0.5 text-xs">
+          
+          <div>
+            <label class="block text-[11px] font-semibold mb-1" style="color: var(--text-secondary)">철학자 선택</label>
+            <select id="newQuoteAuthor" class="w-full px-2.5 py-2 rounded-lg border text-xs focus:outline-none" style="background-color: var(--bg-inner); border-color: var(--border-color); color: var(--text-primary)">
+              <option value="마르쿠스 아우렐리우스">🏛️ 마르쿠스 아우렐리우스</option>
+              <option value="세네카">📜 세네카</option>
+              <option value="에픽테토스">🕊️ 에픽테토스</option>
+              <option value="프리드리히 니체">⚡ 프리드리히 니체</option>
+              <option value="아르투어 쇼펜하우어">🕯️ 아르투어 쇼펜하우어</option>
+              <option value="무소니우스 루푸스">⚖️ 무소니우스 루푸스</option>
+              <option value="제논">🌿 제논</option>
+              <option value="클레안테스">☀️ 클레안테스</option>
+              <option value="나만의 철학자">✍️ 나만의 철학자 / 작가</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-semibold mb-1" style="color: var(--text-secondary)">명언 본문 *</label>
+            <textarea id="newQuoteText" required rows="3" placeholder="기억하고 싶은 명언 구절을 적어주세요." class="w-full px-2.5 py-2 rounded-lg border text-xs focus:outline-none resize-none font-serif leading-relaxed" style="background-color: var(--bg-inner); border-color: var(--border-color); color: var(--text-primary)"></textarea>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-[11px] font-semibold mb-1" style="color: var(--text-secondary)">소제목 / 테마</label>
+              <input type="text" id="newQuoteTitle" placeholder="예: 평정심의 힘" class="w-full px-2.5 py-1.5 rounded-lg border text-xs focus:outline-none" style="background-color: var(--bg-inner); border-color: var(--border-color); color: var(--text-primary)">
+            </div>
+            <div>
+              <label class="block text-[11px] font-semibold mb-1" style="color: var(--text-secondary)">출처 / 저서</label>
+              <input type="text" id="newQuoteWork" placeholder="예: 《명상록》 4권" class="w-full px-2.5 py-1.5 rounded-lg border text-xs focus:outline-none" style="background-color: var(--bg-inner); border-color: var(--border-color); color: var(--text-primary)">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-semibold mb-1" style="color: var(--text-secondary)">나만의 성찰 / 해설</label>
+            <textarea id="newQuoteCommentary" rows="2" placeholder="이 구절이 나에게 주는 의미나 해설을 덧붙여보세요." class="w-full px-2.5 py-1.5 rounded-lg border text-xs focus:outline-none resize-none leading-relaxed" style="background-color: var(--bg-inner); border-color: var(--border-color); color: var(--text-primary)"></textarea>
+          </div>
+
+          <!-- 하단 등록 버튼 -->
+          <div class="pt-2 flex gap-2">
+            <button type="button" onclick="closeAddQuoteModal()" class="flex-1 py-2 rounded-xl text-xs font-medium border" style="border-color: var(--border-color); color: var(--text-secondary)">
+              취소
+            </button>
+            <button type="submit" class="flex-1 py-2 rounded-xl text-xs font-semibold shadow-sm" style="background-color: var(--accent-bg); color: var(--accent-color); border: 1px solid var(--accent-color)">
+              서재에 영구 등록 💾
+            </button>
+          </div>
+
+        </form>
+
       </div>
     </div>
 
