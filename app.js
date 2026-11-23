@@ -260,10 +260,10 @@ function updateModeBadge() {
     badgeEl.textContent = "📅 오늘의 25선 (매일 자정 자동 갱신)";
     badgeEl.classList.add('bg-amber-500/10', 'text-amber-700', 'dark:text-amber-300');
   } else if (state.currentFilter === 'all') {
-    badgeEl.textContent = "📚 전체 지혜 아카이브 (총 75선)";
+    badgeEl.textContent = "📚 전체 지혜 아카이브 (총 150선)";
     badgeEl.classList.remove('bg-amber-500/10', 'text-amber-700', 'dark:text-amber-300');
   } else {
-    badgeEl.textContent = `🏛️ ${state.currentFilter}의 지혜 (총 15선)`;
+    badgeEl.textContent = `🏛️ ${state.currentFilter}의 지혜 (총 30선)`;
     badgeEl.classList.remove('bg-amber-500/10', 'text-amber-700', 'dark:text-amber-300');
   }
 }
